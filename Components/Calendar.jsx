@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
+import { View, Text, TouchableOpacity, StyleSheet} from 'react-native';
 
 const Calendar = () => {
   const [selectedDate, setSelectedDate] = useState(null);
@@ -32,12 +32,16 @@ const Calendar = () => {
       0
     ).getDate();
 
+    const today = new Date(); // Get the current date
+    const currentDay = today.getDate();
+    const currentMonthNum = today.getMonth();
+    const currentYear = today.getFullYear();
+
     for (let i = 0; i < 6; i++) {
       const days = [];
       let shouldRenderWeek = false; // Flag to check if the week should be rendered
       for (let j = 1; j <= 7; j++) {
         const isWeekend = j === 6 || j === 7;
-
         if (prevMonthDays > 0) {
           // Display previous month's days
           days.push(
@@ -53,6 +57,7 @@ const Calendar = () => {
                 {daysInPrevMonth - prevMonthDays + 1}
               </Text>
             </TouchableOpacity>
+            
           );
           prevMonthDays--;
         } else if (dayCount <= daysInMonth) {
@@ -63,6 +68,9 @@ const Calendar = () => {
               style={[
                 styles.day,
                 dayCount === selectedDate ? styles.selectedDay : null,
+                dayCount === currentDay && currentMonthNum === currentMonth.getMonth() && currentYear === currentMonth.getFullYear()
+                  ? styles.currentDay
+                  : null,
               ]}
               onPress={() => setSelectedDate(dayCount)}
             >
@@ -101,10 +109,8 @@ const Calendar = () => {
         );
       }
     }
-
     return weeks;
   };
-
 
   return (
     <View style={styles.calendar}>
@@ -137,6 +143,7 @@ const Calendar = () => {
 const styles = StyleSheet.create({
   calendar: {
     padding: 16,
+    minWidth: '100%',
   },
   monthHeader: {
     flexDirection: 'row',
@@ -154,7 +161,8 @@ const styles = StyleSheet.create({
   weekdays: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    // marginBottom: 8,
+    marginVertical: 8,
+    marginHorizontal: 5
   },
   dayText: {
     fontSize: 14,
@@ -169,12 +177,13 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
   },
   day: {
-    flex: 1,
+    width: 40, // Increase the day width for a larger look
+    height: 40, // Increase the day height for a larger look
     alignItems: 'center',
-    paddingVertical: 8,
-    borderWidth: 1,
-    borderColor: 'black',
-    color: 'red'
+    justifyContent: 'center',
+    borderRadius: 8, // Add some border radius for a 3D effect
+    backgroundColor: 'white', // Add a white background color
+    elevation: 3, // Add some shadow for a 3D effect
   },
   selectedDay: {
     backgroundColor: '#ddd',
@@ -182,8 +191,13 @@ const styles = StyleSheet.create({
   emptyDay: {
     flex: 1,
     borderWidth: 1,
-    //borderColor: 'transparent',
-    color: 'blue'
+  },
+  currentDay: {
+    backgroundColor: '#99d5d5',
+  },
+  scrollView: {
+    flexGrow: 1,
+    minWidth: '100%'
   },
 });
 

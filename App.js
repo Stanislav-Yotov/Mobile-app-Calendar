@@ -1,20 +1,20 @@
 import { StatusBar } from 'expo-status-bar';
-import { View } from 'react-native';
+import { View, StyleSheet } from 'react-native';
 import Calendar from './Components/Calendar';
 
 export default function App() {
   return (
-    <View>
-    <Calendar />  
-    </View>
+    <>
+      <StatusBar style='dark' />
+      <View style={styles.container}>
+          <Calendar />
+      </View>
+    </>
   );
 }
 
-// const styles = StyleSheet.create({
-//   container: {
-//     flex: 1,
-//     backgroundColor: '#fff',
-//     alignItems: 'center',
-//     justifyContent: 'center',
-//   },
-//});
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+  }
+});
